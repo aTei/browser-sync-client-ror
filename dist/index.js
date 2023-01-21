@@ -7773,14 +7773,14 @@
     script: "src"
   };
   function reload(document2, navigator2) {
-    console.log("reload");
     return function(data, options) {
       console.log("reload inner");
       var path = data.path;
       console.log(options);
-      console.log(path);
+      console.log("Path: ", path);
       if (options.liveCSS) {
-        if (path.match(/\.css$/i)) {
+        if (path.match(/\.s?css$/i)) {
+          console.log("match, before reloadStylesheet");
           return reloadStylesheet(path, document2, navigator2);
         }
       }
