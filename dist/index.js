@@ -8050,7 +8050,7 @@
       }, []);
       var allRules = links.concat(styleImported, linksImported);
       console.log(allRules);
-      var match = pickBestMatch(fakePath, allRules, function(l) {
+      var match = pickBestMatch(path, allRules, function(l) {
         return pathFromUrl(linkHref(l));
       });
       // so when btn.scss is changed it reloads smth like application-ltr.css
