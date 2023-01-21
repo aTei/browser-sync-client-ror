@@ -8050,7 +8050,10 @@
       }, []);
       var allRules = links.concat(styleImported, linksImported);
       console.log(allRules);
-      var match = pickBestMatch(path, allRules, function(l) {
+      // so when btn.scss is changed it reloads smth like application-ltr.css
+      // won't work for multiple CSS on the page
+      let fakePath = allRules[0].href;
+      var match = pickBestMatch(fakePath, allRules, function(l) {
         return pathFromUrl(linkHref(l));
       });
       console.log(match);
