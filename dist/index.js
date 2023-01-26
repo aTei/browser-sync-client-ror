@@ -7774,13 +7774,9 @@
   };
   function reload(document2, navigator2) {
     return function(data, options) {
-      console.log("reload inner");
       var path = data.path;
-      console.log(options);
-      console.log("Path: ", path);
       if (options.liveCSS) {
         if (path.match(/\.s?css$/i)) {
-          console.log("match, before reloadStylesheet");
           return reloadStylesheet(path, document2, navigator2);
         }
       }
@@ -8036,7 +8032,6 @@
       return url2 + params + hash;
     }
     function reloadStylesheet(path, document3, navigator3) {
-      console.log("reloadStylesheet", path, document3, navigator3);
       var links = array(document3.getElementsByTagName("link")).filter(function(link) {
         return link.rel.match(/^stylesheet$/i) && !link.__LiveReload_pendingRemoval;
       });
@@ -8049,15 +8044,12 @@
         return acc.concat(collectImportedStylesheets(link, link.sheet));
       }, []);
       var allRules = links.concat(styleImported, linksImported);
-      console.log(allRules);
       var match = pickBestMatch(path, allRules, function(l) {
         return pathFromUrl(linkHref(l));
       });
       // so when btn.scss is changed it reloads smth like application-ltr.css
       // won't work if there are multiple CSS <link/> on the page
       match = {object: allRules[0], score: 1};
-      console.log("match:");
-      console.log(match);
       if (match) {
         if (match.object && match.object.rule) {
           return reattachImportedRule(match.object, document3);
@@ -8120,7 +8112,6 @@
     return [EffectNames.FileReload, event];
   }
   function fileReloadEffect(xs, inputs2) {
-    console.log("fileReloadEffect");
     return xs.pipe((0, import_withLatestFrom5.withLatestFrom)(inputs2.option$, inputs2.document$, inputs2.navigator$), (0, import_mergeMap2.mergeMap)(function(_a7) {
       var event = _a7[0], options = _a7[1], document2 = _a7[2], navigator2 = _a7[3];
       return reload(document2, navigator2)(event, {
@@ -8894,4 +8885,3 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-console.log('--- alive ---');
