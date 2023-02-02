@@ -8035,35 +8035,11 @@
       var links = array(document3.getElementsByTagName("link")).filter(function(link) {
         return link.rel.match(/^stylesheet$/i) && !link.__LiveReload_pendingRemoval;
       });
-      var styleImported = array(document3.getElementsByTagName("style")).filter(function(style) {
-        return Boolean(style.sheet);
-      }).reduce(function(acc, style) {
-        return acc.concat(collectImportedStylesheets(style, style.sheet));
-      }, []);
-      var linksImported = links.reduce(function(acc, link) {
-        return acc.concat(collectImportedStylesheets(link, link.sheet));
-      }, []);
-      var allRules = links.concat(styleImported, linksImported);
-      var match = pickBestMatch(path, allRules, function(l) {
-        return pathFromUrl(linkHref(l));
-      });
-      // so when btn.scss is changed it reloads smth like application-ltr.css
-      // won't work if there are multiple CSS <link/> on the page
-      match = {object: allRules[0], score: 1};
-      if (match) {
-        if (match.object && match.object.rule) {
-          return reattachImportedRule(match.object, document3);
-        }
-        return reattachStylesheetLink(match.object, document3, navigator3);
-      } else {
-        if (links.length) {
-          var _a7 = path.split("."), first = _a7[0], rest = _a7.slice(1);
-          if (first === "*") {
-            return (0, import_from.from)(links.map(function(link) {
-              return reattachStylesheetLink(link, document3, navigator3);
-            })).pipe((0, import_mergeAll.mergeAll)());
-          }
-        }
+      // when btn.scss is changed it reloads all css `<link/>` tags on the page
+      if (links.length) {
+        return (0, import_from.from)(links.map(function(link) {
+          return reattachStylesheetLink(link, document3, navigator3);
+        })).pipe((0, import_mergeAll.mergeAll)());
       }
       return (0, import_empty.empty)();
     }
